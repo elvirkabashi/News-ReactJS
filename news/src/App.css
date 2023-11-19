@@ -1,10 +1,47 @@
+#root{
+    background-color: #f8f7f7;
+}
+.nav-bg{
+    background-color: #707070;
+}
 .card-title{
     font-family: "Escrow Condensed", Georgia, serif;
 }
 
+.card:hover .card-title{
+    color: rgb(81, 165, 165);
+    cursor: pointer;
+}
+a{
+    text-decoration: none !important;
+}
 .card-body p{
     font-family: Retina, Arial, Helvetica, sans-serif;
-    color: rgb(155, 151, 151);
+    color: rgb(156, 156, 156);
     font-size: 14px;
     text-align: start;
 }
+
+.summary-text{
+    font-size: 18px;
+    font-family: "Albert Sans", "Trebuchet MS", "Gill Sans", Tahoma, Verdana, sans-serif;
+    color: #333333;
+}
+
+
+
+  #textiveqant:first-letter {
+    float:left;
+    font-weight: bold;
+    font-size: 60px;
+    font-size: 6rem;
+    line-height: 40px;
+    line-height: 4rem;
+    height:4rem;
+    text-transform: uppercase;
+}
+
+.px-3 svg{
+    background-color: yellow;
+}
+

@@ -35,6 +35,7 @@ function Home() {
                 news.map(ns => (
                     <div key={ns.id}>
                       <CategorySection
+                        id={ns.id}
                         src={ns.image_url}
                         title={ns.title}
                         summary={ns.summary}
@@ -45,35 +46,10 @@ function Home() {
             }
             
       </div>
-      <div className='container d-flex justify-content-center my-5' onClick={handleReadMore}><button className='btn btn-outline-secondary'>Read More</button></div>
+      <div className='container d-flex justify-content-center my-5' onClick={handleReadMore}>
+        <button className='btn btn-outline-secondary'>Read More</button>
+      </div>
 
-        {/* {
-          newsSite && newsSite.map((site) => (
-            <div key={`uniqueKey_${site}`}>
-            <h1>{site}</h1>
-            <div className='container gap-5 d-flex flex-wrap'>
-            
-            {
-              news &&
-              news.filter(ne => ne.news_site === site)
-                .slice(0, 4) 
-                .map(ns => (
-                  <div key={ns.id}>
-                    <CategorySection
-                      src={ns.image_url}
-                      title={ns.title}
-                      summary={ns.summary}
-                      news_site={ns.news_site}
-                      key={ns.id}
-                    />
-                  </div>
-                ))
-            }
-            </div><hr/>
-            </div>
-            
-          ))
-        } */}
 
     </>
   )

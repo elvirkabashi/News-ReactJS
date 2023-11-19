@@ -7,7 +7,7 @@ function Footer() {
     <>
     <Navbar expand="lg" className="bg-body-tertiary">
       <Container>
-        <Navbar.Brand href="#">Footer</Navbar.Brand>
+        <p className='text-sm'>Copyright © FreshNews, 2023</p>
       </Container>
     </Navbar>
     </>
