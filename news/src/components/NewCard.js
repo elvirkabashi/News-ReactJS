@@ -3,11 +3,12 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
+import { useLocalStorage } from '@uidotdev/usehooks'
 
 function NewCard({id,src,title,summary,news_site,published,url}) {
 
- 
-
+  const [isLoggedIn, setIsLoggedIn] = useLocalStorage('isloggedin')
+  
   const tooltip = (
     <Tooltip id="button-tooltip">
       Vizite {news_site} online side
@@ -17,18 +18,26 @@ function NewCard({id,src,title,summary,news_site,published,url}) {
   return (
     <>
       {published ? (
-                  <Card style={{ width: '18rem',border:'none', height:'350px'}}>
-                      <Card.Img variant="top" src={src} style={{height:'200px'}}/>
+                  <Card style={{ width: '18rem',border:'none', height:'350px',padding:'3px'}} className='shadow-lg p-3 mb-5 bg-body-tertiary rounded'>
+                      <Card.Img variant="top" src={src} style={{height:'175px'}}/>
                       <p style={{fontSize:'12px'}}>{`Published: ${published.split('T')[0]} on ${published.split('T')[1].slice(0, 5)}`}</p>
                       <Card.Body style={{padding:'0px'}}>
                       
-                          <Card.Title>{title}</Card.Title>
+                          <Card.Title style={{fontSize:'18px'}}>{title}</Card.Title>
                           
                       </Card.Body>
                         <div className='d-flex justify-content-between'>
+                          {isLoggedIn ? (
                           <Button href={`/news/id/${id}`} variant="outline-primary" size="sm">
                             Details
                           </Button>
+                          )
+                          :
+                          (
+                          <Button href={`/login`} variant="outline-primary" size="sm">
+                            Details
+                          </Button>
+                          )}
                           <OverlayTrigger placement="top" overlay={tooltip}>
                             <a href={url} target="_blank" rel="noopener noreferrer">
                               <Button className='me-3' variant="outline-secondary" size="sm">
@@ -41,7 +50,7 @@ function NewCard({id,src,title,summary,news_site,published,url}) {
                         </div>
                   </Card>
       ):
-              <a href={`/news/id/${id}`}><Card style={{ width: '18rem',border:'none' }}>
+              <a href={`/news/id/${id}`}><Card style={{ width: '18rem',border:'none',backgroundColor:'#f8f7f7',padding:'2px' }}>
                   <Card.Img variant="top" src={src} style={{height:'200px'}}/>
                   <p style={{textTransform:'uppercase',fontSize:'12px'}}>{news_site}</p>
                   <Card.Body style={{padding:'0px'}}>

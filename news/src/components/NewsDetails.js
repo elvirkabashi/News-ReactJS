@@ -3,7 +3,8 @@ import { useParams } from 'react-router-dom'
 import axios from 'axios'
 import LoadingSpinner from '../Utils/LoadingSpinner'
 import { useLocalStorage } from '@uidotdev/usehooks'
-
+import { useNavigate } from 'react-router-dom';
+import Alert from 'react-bootstrap/Alert';
 
 
 function NewsDetails() {
@@ -11,28 +12,45 @@ function NewsDetails() {
     const {id} = useParams()
     const [news,setNews] = useState()
     const [loading, setLoading] = useState()
-    const [isHovered, setIsHovered] = useState(false);
+    const [isHovered, setIsHovered] = useState(false)
 
     const [isLoggedIn, setIsLoggedIn] = useLocalStorage('isloggedin')
     const [bookmark,setBookmark] = useLocalStorage('bookmarks',[])
-    const [isBookmark,setIsBookmark] = useState(true)
-    
+    const [isBookmark,setIsBookmark] = useState()
 
+    const [success,setSuccess] = useState(false)
+    const [unBookmark,setUnBookmark] = useState(false)
+
+
+    const navigate = useNavigate()
+
+    
     useEffect(() => {
+
+        if(isLoggedIn == null) {
+            navigate("/login");
+            return;
+        }
+
         setLoading(true);
         axios.get(`https://api.spaceflightnewsapi.net/v4/articles/${id}/`)
-          .then(res => {
-            setNews(res.data);
-            setLoading(false); 
-          })
-          .catch(error => {
-            console.error("Error fetching data:", error);
-            setLoading(false);
-          });
-      
-      }, [id]);
-
-
+            .then(res => {
+                setNews(res.data);
+                setLoading(false);
+            })
+            .catch(error => {
+                console.error("Error fetching data:", error);
+                setLoading(false);
+            });
+    
+        const hasBookmark = bookmark.some(b => (b.userId === isLoggedIn.id) && (b.id === news?.id))
+    
+        if (hasBookmark) {
+            setIsBookmark(true);
+        } else {
+            setIsBookmark(false);
+        }
+    }, [id, isLoggedIn?.id, news?.id]);
       
 
       const handleMouseEnter = () => {
@@ -43,13 +61,33 @@ function NewsDetails() {
         setIsHovered(false);
       };
 
+      const filterCondition = (item) => {
+        return item.id !== news.id;
+      };
 
-      const handleClcik = () => {
-        //const hasBookmark = bookmark.filter(b => b.userId === bookmark.userId)
-        console.log(bookmark.filter(b => b.userId == news.userId))
-       // if()
-        setBookmark([...bookmark,{...news, userId: isLoggedIn.id}])
-      }
+      const handleClick = () => {
+        const hasBookmark = bookmark.filter(b => b.userId === isLoggedIn.id);
+        const sameBookmark = hasBookmark.some(b => (b.userId === isLoggedIn.id) && (b.id === news.id));
+    
+        if (sameBookmark) {
+            const filteredItems = bookmark.filter(filterCondition);
+            setBookmark([...filteredItems]);
+            setIsBookmark(false); 
+
+            setUnBookmark(true)
+            setTimeout(() => {
+                setUnBookmark(false);
+            }, 3000);
+        } else {
+            setBookmark([...bookmark, { ...news, userId: isLoggedIn.id }]);
+            setIsBookmark(true); 
+
+            setSuccess(true)
+            setTimeout(() => {
+                setSuccess(false);
+            }, 3000);
+        }
+    }
 
   return (
      <>
@@ -72,29 +110,34 @@ function NewsDetails() {
                         <img style={{width: '70%'}} src={news.image_url} alt={news.title}></img>
                     </div>
                     <div className='px-3'>
-                    {isBookmark?(
-                        <div>
-                             {isHovered ? (
-                                <i className="bi bi-bookmark" onMouseEnter={handleMouseEnter} style={{ color: 'black' ,fontSize:'25px'}} />
-                            ) : (
-                                <i className="bi bi-bookmark-fill" onMouseLeave={handleMouseLeave} onClick={handleClcik} style={{ color: '#CCCC00',fontSize:'25px'}} />
-
-                            )}
-                        </div>
-                    ):(
-                        <div>
-                            {isHovered ? (
-                                <i className="bi bi-bookmark-fill" onMouseLeave={handleMouseLeave} onClick={handleClcik} style={{ color: '#CCCC00',fontSize:'25px'}} />
-                            ) : (
-                                <i className="bi bi-bookmark" onMouseEnter={handleMouseEnter} style={{ color: 'black' ,fontSize:'25px'}} />
-                            )}
-                        </div>
-                    )}
-
-                    
-
+                    {isBookmark ? (
+                                        <div>
+                                            <i className="bi bi-bookmark-fill" onMouseLeave={handleMouseLeave} onClick={handleClick} style={{ color: '#CCCC00', fontSize: '25px' }} />
+                                        </div>
+                                    ) : (
+                                        <div>
+                                            {isHovered ? (
+                                                <i className="bi bi-bookmark-fill" onMouseLeave={handleMouseLeave} onClick={handleClick} style={{ color: '#CCCC00', fontSize: '25px' }} />
+                                            ) : (
+                                                <i className="bi bi-bookmark" onMouseEnter={handleMouseEnter} style={{ color: 'black', fontSize: '25px' }} />
+                                            )}
+                                        </div>
+                                    )}
                     </div>
                     <div>
+                   
+                        {success && (
+                            <Alert variant="success">
+                                <small>Bookmarked successfull!</small>
+                            </Alert>
+                        )}
+
+                        {unBookmark && (
+                            <Alert variant="warning">
+                                <small>UnMarked successfull!</small>
+                            </Alert>
+                        )}
+                       
                         <p className='text-end'><b>Publish: <i className="bi bi-calendar2-date"></i></b>{ ` ${news.published_at.split('T')[0]}`} <br/> 
                         <i className="bi bi-clock"></i>{` ${news.published_at.split('T')[1].slice(0, 5)}` }</p>
                         <p className='text-end'><b>Updated: <i className="bi bi-calendar2-date"></i></b> {`${news.updated_at.split('T')[0]} `} <br/> 

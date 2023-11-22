@@ -1,5 +1,5 @@
 import React from 'react'
-import NewCard from './NewCard'
+import NewCard from '../../../components/NewCard'
 
 
 function CategorySection({id,src,title,summary,news_site}) {

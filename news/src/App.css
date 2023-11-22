@@ -1,9 +1,22 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
 #root{
-    background-color: #f8f7f7;
+    background-color: #FAFAFA;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 .nav-bg{
-    background-color: #707070;
+    background-color: #071d39;
 }
+
+.nlink:hover{
+    color: #09a5d8;
+}
+
 .card-title{
     font-family: "Escrow Condensed", Georgia, serif;
 }
@@ -45,3 +58,6 @@ a{
     background-color: yellow;
 }
 
+.footer small:hover{
+    text-decoration: underline;
+}

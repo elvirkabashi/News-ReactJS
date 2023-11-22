@@ -7,6 +7,8 @@ import News from './pages/NewsPage/News';
 import NewsDetails from './components/NewsDetails';
 import SingUp from './pages/auth/SingUp';
 import LogIn from './pages/auth/LogIn';
+import Dashboard from './pages/Dashboard/Dashboard';
+import ByNewsSite from './components/ByNewsSite';
 
 
 function App() {
@@ -17,6 +19,8 @@ function App() {
           <Route path="/" element={<Home/>}/>
           <Route path="/news" element={<News/>}/>
           <Route path="/news/id/:id" element={<NewsDetails/>}/>
+          <Route path="/dashboard" element={<Dashboard/>}/>
+          <Route path="/bynewssite" element={<ByNewsSite/>}/>
           <Route path='/singup' element={<SingUp/>}/>
           <Route path='/login' element={<LogIn/>}/>
         </Routes>

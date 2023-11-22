@@ -65,7 +65,7 @@ function News() {
           </div>
         ) : (
           <>
-            <div className='d-flex gap-3 flex-wrap'>
+            <div className='d-flex gap-1 flex-wrap'>
               {news && news.map(newss => (
                 <div key={newss.id}>
                   <NewCard id={newss.id} src={newss.image_url} title={newss.title} summary={newss.summary} news_site={newss.news_site} published={newss.published_at} url={newss.url}/>

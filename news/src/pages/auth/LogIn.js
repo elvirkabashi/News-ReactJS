@@ -13,7 +13,7 @@ function LogIn() {
     if(isLoggedIn != null) {
       navigate("/");
     }
-  }, [isLoggedIn,navigate])
+  }, [])
 
   const handleLogin = e => {
     e.preventDefault()
@@ -21,9 +21,9 @@ function LogIn() {
     const email = form[0].value
     const password = form[1].value
     const db_users = users.filter(user => (user.email === email && user.password === password))
-
+    console.log(db_users)
     if(db_users.length > 0) {
-      setIsLoggedIn(users[0])
+      setIsLoggedIn(db_users[0])
       navigate("/");
     } else {
       alert(`Invalid credentials!`)

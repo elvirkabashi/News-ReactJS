@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import LastesNews from './component/LastesNews'
-import CategorySection from '../../components/CategorySection'
+import CategorySection from './component/HomeNews'
 import axios from 'axios'
 
 function Home() {
