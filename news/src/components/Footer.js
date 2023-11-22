@@ -26,7 +26,7 @@ function Footer() {
             <h5 className='text-center text-white'>Find by news site</h5>
             <div className='footer d-flex flex-wrap' >
               {newsSite && newsSite.map(s => (
-                 <a href='' key={s} >
+                 <a href={`/bynewssite/${s}`} key={s} >
                   <small className='text-white px-2'>{s}</small>
                   </a>
               ))}
